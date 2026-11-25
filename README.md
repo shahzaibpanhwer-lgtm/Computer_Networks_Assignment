@@ -102,3 +102,24 @@ Terminal B shows `user2: Hello` only after the second part arrives.
 ## Note
 
 No encryption and no login. Do not expose these servers on the public Internet.
+
+## Bonus: crash / DoS test (`crash_test.py`)
+
+The provided `web_server` and `daytime_server` serve **one client at a time**
+(single thread). `crash_test.py` abuses that to take the web server down.
+
+```
+python crash_test.py slowloris 127.0.0.1 8080     # hold the server with one slow connection
+python crash_test.py flood     127.0.0.1 1313 --count 500   # overflow the accept backlog
+```
+
+**Slowloris result:** while the script holds one connection and dribbles a byte
+every few seconds, `read_head()` keeps waiting and the server can serve nobody
+else. A normal request then times out:
+
+```
+baseline:      status=200  time=0.002s
+during attack: status=000  time=5.0s   (web server unreachable = DoS)
+```
+
+Educational use only — run it against your own server on localhost.
