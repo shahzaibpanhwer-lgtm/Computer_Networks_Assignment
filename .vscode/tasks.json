@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build current file (MinGW)",
+      "type": "shell",
+      "command": "g++",
+      "args": [
+        "-std=c++17", "-Wall",
+        "-o", "${fileBasenameNoExtension}.exe",
+        "${file}", "-lws2_32"
+      ],
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "build ALL (MinGW)",
+      "type": "shell",
+      "windows": { "command": "${workspaceFolder}/build.bat" },
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}

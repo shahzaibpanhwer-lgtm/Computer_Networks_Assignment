@@ -1,0 +1,9 @@
+# Build output
+*.exe
+*.o
+*.obj
+build/
+.vs/
+
+# Keep source, www, docs
+!www/
